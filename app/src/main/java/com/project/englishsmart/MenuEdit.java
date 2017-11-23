@@ -64,7 +64,7 @@ public class MenuEdit extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //Toast.makeText(MenuEdit(),"Hello Javatpoint",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),"Edit",Toast.LENGTH_SHORT).show();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_menu_edit, container, false);
     }
