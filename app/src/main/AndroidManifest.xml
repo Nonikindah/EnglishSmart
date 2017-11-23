@@ -19,18 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".EditActivity"
-            android:label="@string/title_activity_edit"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".FormActivity"
-            android:label="@string/title_activity_formedit"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

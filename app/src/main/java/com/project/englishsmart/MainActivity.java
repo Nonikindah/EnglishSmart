@@ -4,20 +4,22 @@ package com.project.englishsmart;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-        android.support.v4.app. FragmentTransaction fragmentTransaction;
+        FragmentTransaction fragmentTransaction;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +43,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        fragmentTransaction =  getSupportFragmentManager().beginTransaction();
-        //fragmentTransaction.add(R.id.)
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new HomeFragment() ).commit();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -91,9 +92,8 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.edit) {
-            fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_container, new MenuEdit());
-            fragmentTransaction.commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_container,new MenuEdit()).commit();
+//            fragmentTransaction.commit();
             getSupportActionBar().setTitle("");
             item.setChecked(true);
 
