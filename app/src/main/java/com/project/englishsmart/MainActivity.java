@@ -19,12 +19,13 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
         FragmentTransaction fragmentTransaction;
-
+        DatabaseHelper MyDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MyDb= new DatabaseHelper(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -80,8 +81,10 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.nav_exercise) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_container,new ExerciseFragment()).commit();
+            getSupportActionBar().setTitle("Exercise");
+            item.setChecked(true);
         } else if (id == R.id.edit) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container,new MenuEdit()).commit();
 //            fragmentTransaction.commit();

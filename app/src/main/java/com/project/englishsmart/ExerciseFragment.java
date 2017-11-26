@@ -13,12 +13,12 @@ import android.widget.Toast;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MenuEdit.OnFragmentInteractionListener} interface
+ * {@link ExerciseFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MenuEdit#newInstance} factory method to
+ * Use the {@link ExerciseFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MenuEdit extends Fragment {
+public class ExerciseFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +30,7 @@ public class MenuEdit extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public MenuEdit() {
+    public ExerciseFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +40,11 @@ public class MenuEdit extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MenuEdit.
+     * @return A new instance of fragment ExerciseFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MenuEdit newInstance(String param1, String param2) {
-        MenuEdit fragment = new MenuEdit();
+    public static ExerciseFragment newInstance(String param1, String param2) {
+        ExerciseFragment fragment = new ExerciseFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,15 +59,14 @@ public class MenuEdit extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+        Toast.makeText(getActivity(), "Exercise", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Toast.makeText(getActivity(),"Edit",Toast.LENGTH_SHORT).show();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_menu_edit, container, false);
+        return inflater.inflate(R.layout.fragment_exercise, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -77,16 +76,16 @@ public class MenuEdit extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
 //            throw new RuntimeException(context.toString()
 //                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+//        }
+//    }
 
     @Override
     public void onDetach() {
