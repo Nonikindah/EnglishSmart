@@ -91,8 +91,6 @@ public class MainActivity extends AppCompatActivity
             getSupportActionBar().setTitle("");
             item.setChecked(true);
 
-
-
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
