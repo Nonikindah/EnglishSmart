@@ -1,10 +1,16 @@
 package com.project.englishsmart;
 
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,11 +21,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
         FragmentTransaction fragmentTransaction;
         DatabaseHelper MyDb;
+        private static ArrayAdapter<String> adapter;
+        private ArrayList<String> verb;
+        private static ListView listView;
+        LinkedHashMap<String,String> namelist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +61,14 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        fetch();
+
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,verb);
+
+//
+        ListView listView = (ListView) findViewById(R.id.list);
+        //listView.setAdapter(adapter);
 
     }
 
@@ -106,5 +136,43 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void fetch(){
+        MyDb =new DatabaseHelper(this);
+        try {
+
+            MyDb.createDatabase();
+            MyDb.openDatabase();
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+        namelist=new LinkedHashMap<>();
+        int ii;
+        SQLiteDatabase sd = MyDb.getReadableDatabase();
+        Cursor cursor = sd.rawQuery("SELECT * FROM verb_table",null);
+        ii=cursor.getColumnIndex("VERB1");
+        verb=new ArrayList<String>();
+        Log.d(TAG,"first");
+        if (cursor.moveToFirst()) {
+            do {
+                verb.add(cursor.getString(ii));
+                Toast.makeText(MainActivity.this, "jumlah "+cursor.getString(ii), Toast.LENGTH_SHORT).show();
+
+            } while (cursor.moveToNext());
+        }
+    }
+
+    public void exercise1(View view)
+    {
+        Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
+        //Toast.makeText(getActivity(), "Exercise", Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+
     }
 }
