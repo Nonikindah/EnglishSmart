@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,verb);
 
 //
-        ListView listView = (ListView) findViewById(R.id.list);
+        //ListView listView = (ListView) findViewById(R.id.list);
         //listView.setAdapter(adapter);
 
     }
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        namelist=new LinkedHashMap<>();
+        //namelist=new LinkedHashMap<>();
         int ii;
         SQLiteDatabase sd = MyDb.getReadableDatabase();
         Cursor cursor = sd.rawQuery("SELECT * FROM verb_table",null);
@@ -160,10 +160,11 @@ public class MainActivity extends AppCompatActivity
         if (cursor.moveToFirst()) {
             do {
                 verb.add(cursor.getString(ii));
-                Toast.makeText(MainActivity.this, "jumlah "+cursor.getString(ii), Toast.LENGTH_SHORT).show();
+
 
             } while (cursor.moveToNext());
         }
+        Toast.makeText(MainActivity.this, "jumlah "+verb.size(), Toast.LENGTH_SHORT).show();
     }
 
     public void exercise1(View view)

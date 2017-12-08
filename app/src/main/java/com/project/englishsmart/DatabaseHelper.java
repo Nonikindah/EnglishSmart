@@ -29,12 +29,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, 1);
         this.myContext = context;
         DATABASE_PATH= myContext.getDatabasePath(DATABASE_NAME).toString();
+        myContext.deleteDatabase(DATABASE_PATH);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
 //        String sql = "CREATE TABLE " + TABLE_NAME + "(" + ID_VERB + " INTEGER PRIMARY KEY AUTOINCREMENT," + VERB1 + " TEXT," + VERB2 + " TEXT," + VERB3 + " TEXT,"+ VERBS +" TEXT,"+VERBING+" TEXT"+")";
 //        db.execSQL(sql);
+
     }
 
     @Override

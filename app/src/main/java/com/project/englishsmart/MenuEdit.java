@@ -2,23 +2,23 @@ package com.project.englishsmart;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 
 /**
@@ -39,9 +39,9 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
     private String mParam1;
     private String mParam2;
     private Button btn_edit;
-
+    DatabaseHelper MyDb;
     private OnFragmentInteractionListener mListener;
-    String[] Exercise = {"Tomatoes grow all year long in Florida"};
+    private ArrayList<String> Exercise;
 
 
     public MenuEdit() {
@@ -70,6 +70,7 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_menu_edit);
+        MyDb = new DatabaseHelper(this.getActivity());
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -82,12 +83,12 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
 
         @Override
         public int getCount() {
-            return Exercise.length;
+            return Exercise.size();
         }
 
         @Override
         public Object getItem(int i) {
-            return Exercise[i];
+            return Exercise.get(i);
         }
 
         @Override
@@ -99,7 +100,20 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.listlayout,null);
             TextView textView_exercise = (TextView)view.findViewById(R.id.textView2);
-            textView_exercise.setText(Exercise[i]);
+
+            textView_exercise.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(MenuEdit.this.getActivity(), FormEdit.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.putExtra("STUDY", ((TextView) view.findViewById(R.id.textView2)).getText());
+                    MenuEdit.this.startActivity(i);
+                }
+            });
+//            Button button = (Button)view.findViewById(R.id.button_edit);
+//            Button button1 = (Button)view.findViewById(R.id.button_hapus);
+            textView_exercise.setText(Exercise.get(i));
             return view;
         }
     }
@@ -110,22 +124,20 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Toast.makeText(getActivity(),"Edit",Toast.LENGTH_SHORT).show();
+        fetch();
+        //Toast.makeText(getActivity(),"Edit",Toast.LENGTH_SHORT).show();
         // Inflate the layout for this fragment
-
-//        View view = inflater.inflate(R.layout.fragment_menu_edit, container, false);
-//        ListView listView = view.findViewById();
-//
-//        return view;
         return inflater.inflate(R.layout.fragment_menu_edit, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btn_edit = (Button) this.getActivity().findViewById(R.id.edit_btn);
         btn_edit.setOnClickListener(this);
+
         ListView listView = (ListView) getActivity().findViewById(R.id.list_view);
+
         CustomAdapter customAdapter = new CustomAdapter();
         listView.setAdapter(customAdapter);
     }
@@ -154,11 +166,35 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
         mListener = null;
     }
 
-//    public void addClick(View view){
-//        Intent intent = new Intent(MenuEdit.this, FormEdit.class);
-//        startActivity(intent);
+    public void fetch(){
+        MyDb =new DatabaseHelper(this.getContext());
+        try {
+
+            MyDb.createDatabase();
+            MyDb.openDatabase();
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+        //namelist=new LinkedHashMap<>();
+        int ii;
+        SQLiteDatabase sd = MyDb.getReadableDatabase();
+        Cursor cursor = sd.rawQuery("SELECT*  FROM sentence",null);
+        ii=cursor.getColumnIndex("sentence");
+        Exercise =new ArrayList<String>();
+        //Log.d(TAG,"first");
+        if (cursor.moveToFirst()) {
+            do {
+                Exercise.add(cursor.getString(ii));
+                //Toast.makeText(getContext(), "jumlah "+cursor.getString(ii), Toast.LENGTH_SHORT).show();
 //
-//    }
+            } while (cursor.moveToNext());
+        }
+    }
 
     @Override
     public void onClick(View view) {
