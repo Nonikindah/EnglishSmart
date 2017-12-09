@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, 1);
         this.myContext = context;
         DATABASE_PATH= myContext.getDatabasePath(DATABASE_NAME).toString();
-        myContext.deleteDatabase(DATABASE_PATH);
+        //myContext.deleteDatabase(DATABASE_PATH);
     }
 
     @Override
@@ -103,4 +104,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         super.close();
     }
+
+    public void insertSentence(String sentence)
+    {
+        Toast.makeText(myContext, sentence, Toast.LENGTH_SHORT).show();
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("INSERT INTO sentence (sentence)" + "VALUES (" + "\""+sentence + "\""+");");
+    }
+
 }
