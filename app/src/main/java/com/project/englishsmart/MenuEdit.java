@@ -32,6 +32,7 @@ import java.util.LinkedHashMap;
 public class MenuEdit extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -42,6 +43,7 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
     DatabaseHelper MyDb;
     private OnFragmentInteractionListener mListener;
     private ArrayList<String> Exercise;
+    private ArrayList<Integer> id;
 
 
     public MenuEdit() {
@@ -108,6 +110,7 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
                     Intent i = new Intent(MenuEdit.this.getActivity(), FormEdit.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.putExtra("STUDY", ((TextView) view.findViewById(R.id.textView2)).getText());
+                    i.putExtra("ID", ((TextView) view.findViewById(R.id.textView2)).getText());
                     MenuEdit.this.startActivity(i);
                 }
             });
@@ -182,42 +185,20 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
 
         //namelist=new LinkedHashMap<>();
         int ii;
+        int ic;
         SQLiteDatabase sd = MyDb.getReadableDatabase();
         Cursor cursor = sd.rawQuery("SELECT*  FROM sentence",null);
         ii=cursor.getColumnIndex("sentence");
+        ic=cursor.getColumnIndex("id");
         Exercise =new ArrayList<String>();
+        id =new ArrayList<Integer>();
         //Log.d(TAG,"first");
         if (cursor.moveToFirst()) {
             do {
                 Exercise.add(cursor.getString(ii));
-                //Toast.makeText(getContext(), "jumlah "+cursor.getString(ii), Toast.LENGTH_SHORT).show();
+                id.add(cursor.getInt(ic));
+                Toast.makeText(getContext(), "jumlah "+cursor.getInt(ic), Toast.LENGTH_SHORT).show();
 //
-            } while (cursor.moveToNext());
-        }
-    }
-
-            MyDb.createDatabase();
-            MyDb.openDatabase();
-
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-
-        namelist=new LinkedHashMap<>();
-        int ii;
-        SQLiteDatabase sd = MyDb.getReadableDatabase();
-        Cursor cursor = sd.rawQuery("SELECT  FROM sentence",null);
-        ii=cursor.getColumnIndex("VERB1");
-        exercise =new ArrayList<String>();
-        Log.d(TAG,"first");
-        if (cursor.moveToFirst()) {
-            do {
-                .add(cursor.getString(ii));
-                Toast.makeText(MainActivity.this, "jumlah "+cursor.getString(ii), Toast.LENGTH_SHORT).show();
-
             } while (cursor.moveToNext());
         }
     }

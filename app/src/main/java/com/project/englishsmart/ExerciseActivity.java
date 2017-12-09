@@ -21,6 +21,8 @@ import static android.content.ContentValues.TAG;
 public class ExerciseActivity extends AppCompatActivity {
     DatabaseHelper MyDb;
     ArrayList <String> sentence;
+    TextView sentenceText;
+    int i=0;
     //FragmentTransaction fragmentTransaction;
 
     @Override
@@ -30,14 +32,14 @@ public class ExerciseActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         MyDb= new DatabaseHelper(this);
-        TextView sentenceText= (TextView) findViewById(R.id.sentence);
+        sentenceText= (TextView) findViewById(R.id.sentence);
         fetch();
         sentenceText.setText(sentence.get(0));
     }
 
     public void next(View view)
     {
-
+        sentenceText.setText(sentence.get(++i));
     }
 
 
