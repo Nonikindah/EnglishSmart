@@ -196,6 +196,32 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
         }
     }
 
+            MyDb.createDatabase();
+            MyDb.openDatabase();
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+        namelist=new LinkedHashMap<>();
+        int ii;
+        SQLiteDatabase sd = MyDb.getReadableDatabase();
+        Cursor cursor = sd.rawQuery("SELECT  FROM sentence",null);
+        ii=cursor.getColumnIndex("VERB1");
+        exercise =new ArrayList<String>();
+        Log.d(TAG,"first");
+        if (cursor.moveToFirst()) {
+            do {
+                .add(cursor.getString(ii));
+                Toast.makeText(MainActivity.this, "jumlah "+cursor.getString(ii), Toast.LENGTH_SHORT).show();
+
+            } while (cursor.moveToNext());
+        }
+    }
+
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(this.getActivity(), FormEdit.class);
