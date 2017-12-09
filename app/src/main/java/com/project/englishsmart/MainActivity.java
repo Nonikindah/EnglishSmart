@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.edit) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container,new MenuEdit()).commit();
 //            fragmentTransaction.commit();
-            getSupportActionBar().setTitle("");
+            getSupportActionBar().setTitle("Edit Questions");
             item.setChecked(true);
 
         } else if (id == R.id.nav_slideshow) {
@@ -165,6 +165,9 @@ public class MainActivity extends AppCompatActivity
             } while (cursor.moveToNext());
         }
         Toast.makeText(MainActivity.this, "jumlah "+verb.size(), Toast.LENGTH_SHORT).show();
+    }
+    public void RefreshList(){
+
     }
 
     public void exercise1(View view)
