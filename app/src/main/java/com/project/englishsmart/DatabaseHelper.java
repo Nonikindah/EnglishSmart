@@ -1,6 +1,7 @@
 package com.project.englishsmart;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -30,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, 1);
         this.myContext = context;
         DATABASE_PATH= myContext.getDatabasePath(DATABASE_NAME).toString();
-        //myContext.deleteDatabase(DATABASE_PATH);
+        myContext.deleteDatabase(DATABASE_PATH);
     }
 
     @Override
@@ -107,9 +108,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void insertSentence(String sentence)
     {
-        Toast.makeText(myContext, sentence, Toast.LENGTH_SHORT).show();
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("INSERT INTO sentence (sentence)" + "VALUES (" + "\""+sentence + "\""+");");
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] words=sentence.split("\\s+");
+        boolean checkWords=true;
+        String Query = "SELECT * FROM sentence WHERE sentence = '" + sentence + "' COLLATE NOCASE ";
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.getCount() > 0)
+        {
+            checkWords=false;
+
+        }
+
+        if(checkWords)
+        {
+            for (int i = 0; i < words.length; i++) {
+                words[i] = words[i].replace(".", "");
+                words[i] = words[i].replace(",", "");
+                words[i] = words[i].replace(":", "");
+                words[i] = words[i].replace("\"", "");
+                words[i] = words[i].replace("/", "");
+                Query = "SELECT * FROM verb_table WHERE VERB1 = '" + words[i] + "' COLLATE NOCASE OR VERB2 = '" + words[i] + "' COLLATE NOCASE OR VERB3 = '" + words[i] + "' COLLATE NOCASE OR VERBING = '" + words[i] + "' COLLATE NOCASE OR VERBS = '" + words[i] + "' COLLATE NOCASE ";
+                cursor = db.rawQuery(Query, null);
+                if (cursor.getCount() > 0) {
+                    checkWords = true;
+                    break;
+                }
+                else{
+                    checkWords=false;
+                }
+            }
+        }
+        cursor.close();
+        db.close();
+        if(checkWords==true)
+        {
+            db = this.getWritableDatabase();
+            db.execSQL("INSERT INTO sentence (sentence)" + "VALUES (" + "\""+sentence + "\""+");");
+            Toast.makeText(myContext, "Sentence Saved", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(myContext, "your Sentence has no supported word in database", Toast.LENGTH_SHORT).show();
+        }
+        //db.execSQL("INSERT INTO verb_table (VERB1, VERB2, VERB3)" + "VALUES (" + "\""+words[0] + "\","+"\""+words[1] + "\","+"\""+words[2] + "\""+");");
     }
 
 }
