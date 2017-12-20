@@ -35,6 +35,7 @@ public class FormEdit extends AppCompatActivity {
     public void save(View view)
     {
         db.insertSentence(edit.getText().toString());
+        db.updateSentence(edit.getText().toString());
     }
 
 }

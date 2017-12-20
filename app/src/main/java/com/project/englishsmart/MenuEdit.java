@@ -101,7 +101,7 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.listlayout,null);
-            TextView textView_exercise = (TextView)view.findViewById(R.id.textView2);
+            final TextView textView_exercise = (TextView)view.findViewById(R.id.textView2);
 
             textView_exercise.setOnClickListener(new View.OnClickListener() {
 
@@ -110,12 +110,10 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
                     Intent i = new Intent(MenuEdit.this.getActivity(), FormEdit.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.putExtra("STUDY", ((TextView) view.findViewById(R.id.textView2)).getText());
-                    i.putExtra("ID", ((TextView) view.findViewById(R.id.textView2)).getText());
+                    i.putExtra("ID", ((TextView) view.findViewById(R.id.textView2)).getId());
                     MenuEdit.this.startActivity(i);
                 }
             });
-//            Button button = (Button)view.findViewById(R.id.button_edit);
-//            Button button1 = (Button)view.findViewById(R.id.button_hapus);
             textView_exercise.setText(Exercise.get(i));
             return view;
         }
@@ -187,17 +185,17 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
         int ii;
         int ic;
         SQLiteDatabase sd = MyDb.getReadableDatabase();
-        Cursor cursor = sd.rawQuery("SELECT*  FROM sentence",null);
+        Cursor cursor = sd.rawQuery("SELECT * FROM sentence",null);
         ii=cursor.getColumnIndex("sentence");
         ic=cursor.getColumnIndex("id");
         Exercise =new ArrayList<String>();
-        id =new ArrayList<Integer>();
+        id = new ArrayList<Integer>();
         //Log.d(TAG,"first");
         if (cursor.moveToFirst()) {
             do {
                 Exercise.add(cursor.getString(ii));
                 id.add(cursor.getInt(ic));
-                Toast.makeText(getContext(), "jumlah "+cursor.getInt(ic), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "jumlah "+cursor.getInt(ic), Toast.LENGTH_SHORT).show();
 //
             } while (cursor.moveToNext());
         }

@@ -154,4 +154,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //db.execSQL("INSERT INTO verb_table (VERB1, VERB2, VERB3)" + "VALUES (" + "\""+words[0] + "\","+"\""+words[1] + "\","+"\""+words[2] + "\""+");");
     }
 
+    public void deleteSentence(String sentence, Integer id){
+        //SQLiteDatabase db = this.getWritableDatabase();
+        //db.execSQL("DELETE FROM sentence WHERE id = '" +id"'");
+    }
+
+    public void updateSentence(String sentence) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE sentence SET sentence = '" + sentence + "'");
+    }
 }
