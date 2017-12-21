@@ -13,13 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,7 +43,6 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
     private OnFragmentInteractionListener mListener;
     private ArrayList<String> Exercise;
     private ArrayList<Integer> id;
-
 
     public MenuEdit() {
         // Required empty public constructor
@@ -78,9 +76,7 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
-
     class CustomAdapter extends BaseAdapter{
 
         @Override
@@ -142,7 +138,6 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
         CustomAdapter customAdapter = new CustomAdapter();
         listView.setAdapter(customAdapter);
     }
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -204,9 +199,13 @@ public class MenuEdit extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(this.getActivity(), FormEdit.class);
+//        if(Exercise == 1){
+//            intent.putExtra("STUDY", "0");
+//        }else{
+//            intent.putExtra("STUDY",  );
+//        }
         this.getActivity().startActivity(intent);
     }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

@@ -31,14 +31,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, 1);
         this.myContext = context;
         DATABASE_PATH= myContext.getDatabasePath(DATABASE_NAME).toString();
-        myContext.deleteDatabase(DATABASE_PATH);
+        //myContext.deleteDatabase(DATABASE_PATH);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
 //        String sql = "CREATE TABLE " + TABLE_NAME + "(" + ID_VERB + " INTEGER PRIMARY KEY AUTOINCREMENT," + VERB1 + " TEXT," + VERB2 + " TEXT," + VERB3 + " TEXT,"+ VERBS +" TEXT,"+VERBING+" TEXT"+")";
 //        db.execSQL(sql);
-
     }
 
     @Override
@@ -138,8 +137,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     checkWords=false;
                 }
             }
+            cursor.close();
         }
-        cursor.close();
+
         db.close();
         if(checkWords==true)
         {
@@ -151,16 +151,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         {
             Toast.makeText(myContext, "your Sentence has no supported word in database", Toast.LENGTH_SHORT).show();
         }
-        //db.execSQL("INSERT INTO verb_table (VERB1, VERB2, VERB3)" + "VALUES (" + "\""+words[0] + "\","+"\""+words[1] + "\","+"\""+words[2] + "\""+");");
+        db.execSQL("INSERT INTO verb_table (VERB1, VERB2, VERB3)" + "VALUES (" + "\""+words[0] + "\","+"\""+words[1] + "\","+"\""+words[2] + "\""+");");
     }
 
-    public void deleteSentence(String sentence, Integer id){
-        //SQLiteDatabase db = this.getWritableDatabase();
-        //db.execSQL("DELETE FROM sentence WHERE id = '" +id"'");
-    }
-
-    public void updateSentence(String sentence) {
+    public void updateSentence(String from, String sentence) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("UPDATE sentence SET sentence = '" + sentence + "'");
+        db.execSQL("UPDATE sentence SET sentence = '" + sentence + "' WHERE sentence='"+from+"' ");
+        Toast.makeText(myContext, "Sentence Saved", Toast.LENGTH_SHORT).show();
+    }
+    public void deleteSentence( String sentence){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM sentence WHERE sentence = '" +sentence+"'");
+        Toast.makeText(myContext, "Sentence Deleted", Toast.LENGTH_SHORT).show();
     }
 }
